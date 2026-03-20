@@ -1,0 +1,739 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>해외골프여행 전문 | 마이골프트래블</title>
+  <meta name="description" content="일본, 태국, 베트남, 중국 등 해외골프여행 전문 여행사. 합리적인 가격과 최상의 서비스로 최고의 골프여행을 만들어 드립니다." />
+  <link rel="stylesheet" href="css/style.css" />
+  <!-- Swiper CSS -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+</head>
+<body>
+
+<!-- ===== HEADER ===== -->
+<header class="header" id="header">
+  <div class="header-inner">
+    <button class="btn-menu" id="btnMenu" aria-label="메뉴 열기">
+      <span></span><span></span><span></span>
+    </button>
+    <a href="/" class="logo">
+      <span class="logo-icon">⛳</span>
+      <span class="logo-text">마이골프트래블</span>
+    </a>
+    <div class="header-right">
+      <button class="btn-search" id="btnSearch" aria-label="검색">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/>
+        </svg>
+      </button>
+      <a href="#" class="btn-consult">상담신청</a>
+    </div>
+  </div>
+
+  <!-- Search Bar -->
+  <div class="search-bar" id="searchBar">
+    <div class="search-inner">
+      <input type="text" placeholder="여행지, 골프장을 검색하세요" id="searchInput" />
+      <button class="btn-search-submit">검색</button>
+    </div>
+  </div>
+</header>
+
+<!-- ===== MOBILE NAV DRAWER ===== -->
+<nav class="nav-drawer" id="navDrawer">
+  <div class="nav-drawer-header">
+    <span class="logo-text">마이골프트래블</span>
+    <button class="btn-close" id="btnClose">✕</button>
+  </div>
+  <ul class="nav-list">
+    <li><a href="#overseas">해외골프</a>
+      <ul>
+        <li><a href="#japan">일본</a></li>
+        <li><a href="#thailand">태국</a></li>
+        <li><a href="#vietnam">베트남</a></li>
+        <li><a href="#china">중국</a></li>
+        <li><a href="#philippines">필리핀</a></li>
+      </ul>
+    </li>
+    <li><a href="#domestic">국내골프</a></li>
+    <li><a href="#parkgolf">파크골프</a></li>
+    <li><a href="#event">기획전/이벤트</a></li>
+    <li><a href="#review">여행후기</a></li>
+    <li><a href="#about">회사소개</a></li>
+  </ul>
+  <div class="nav-contact">
+    <div class="nav-phone">📞 1899-0000</div>
+    <div class="nav-hours">평일 09:00~18:00</div>
+  </div>
+</nav>
+<div class="nav-overlay" id="navOverlay"></div>
+
+<!-- ===== HERO SLIDER ===== -->
+<section class="hero-slider">
+  <div class="swiper heroSwiper">
+    <div class="swiper-wrapper">
+      <!-- Slide 1 -->
+      <div class="swiper-slide hero-slide slide-green">
+        <a href="#japan">
+          <div class="slide-content">
+            <div class="slide-badge">🇯🇵 일본 특가</div>
+            <h2>일본 골프여행<br>특별 기획전</h2>
+            <p>오사카·도쿄·후쿠오카<br>인기 코스 최저가 보장</p>
+            <span class="slide-price">499,000원~</span>
+          </div>
+          <div class="slide-bg" style="background-image:url('https://images.unsplash.com/photo-1535131749006-b7f58c99034b?w=800&auto=format&fit=crop')"></div>
+        </a>
+      </div>
+      <!-- Slide 2 -->
+      <div class="swiper-slide hero-slide slide-blue">
+        <a href="#thailand">
+          <div class="slide-content">
+            <div class="slide-badge">🇹🇭 태국 인기</div>
+            <h2>태국 방콕·파타야<br>골프 패키지</h2>
+            <p>5성급 호텔 + 명문 코스<br>합리적인 가격</p>
+            <span class="slide-price">790,000원~</span>
+          </div>
+          <div class="slide-bg" style="background-image:url('https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=800&auto=format&fit=crop')"></div>
+        </a>
+      </div>
+      <!-- Slide 3 -->
+      <div class="swiper-slide hero-slide slide-orange">
+        <a href="#vietnam">
+          <div class="slide-content">
+            <div class="slide-badge">🇻🇳 베트남 추천</div>
+            <h2>베트남 다낭·나트랑<br>리조트 골프</h2>
+            <p>바다 전망 코스 + 리조트<br>프리미엄 패키지</p>
+            <span class="slide-price">659,000원~</span>
+          </div>
+          <div class="slide-bg" style="background-image:url('https://images.unsplash.com/photo-1559494007-9f5847c49d94?w=800&auto=format&fit=crop')"></div>
+        </a>
+      </div>
+      <!-- Slide 4 -->
+      <div class="swiper-slide hero-slide slide-purple">
+        <a href="#event">
+          <div class="slide-content">
+            <div class="slide-badge">🎉 이벤트</div>
+            <h2>놓치면 후회!<br>기획전/이벤트</h2>
+            <p>한정 특가 & 얼리버드<br>선착순 마감</p>
+            <span class="slide-cta">지금 확인하기 →</span>
+          </div>
+          <div class="slide-bg" style="background-image:url('https://images.unsplash.com/photo-1611374243147-44a702c2d44c?w=800&auto=format&fit=crop')"></div>
+        </a>
+      </div>
+    </div>
+    <div class="swiper-pagination heroSwiper-pagination"></div>
+  </div>
+</section>
+
+<!-- ===== QUICK SEARCH ===== -->
+<section class="quick-search">
+  <div class="container">
+    <h3 class="section-title-sm">당신의 여행지는 어디인가요?</h3>
+    <div class="destination-chips">
+      <a href="#japan" class="chip chip-active">일본</a>
+      <a href="#thailand" class="chip">태국</a>
+      <a href="#vietnam" class="chip">베트남</a>
+      <a href="#china" class="chip">중국</a>
+      <a href="#philippines" class="chip">필리핀</a>
+      <a href="#taiwan" class="chip">대만</a>
+      <a href="#malaysia" class="chip">말레이시아</a>
+    </div>
+  </div>
+</section>
+
+<!-- ===== CATEGORY TABS ===== -->
+<section class="category-section" id="overseas">
+  <div class="container">
+    <div class="category-tabs" id="categoryTabs">
+      <button class="tab-btn active" data-tab="overseas">해외</button>
+      <button class="tab-btn" data-tab="japan">일본</button>
+      <button class="tab-btn" data-tab="thailand">태국</button>
+      <button class="tab-btn" data-tab="domestic">국내</button>
+      <a href="#" class="tab-more">모두보기</a>
+    </div>
+  </div>
+</section>
+
+<!-- ===== FEATURED BANNER ===== -->
+<section class="featured-banner">
+  <div class="swiper featuredSwiper">
+    <div class="swiper-wrapper">
+      <div class="swiper-slide">
+        <a href="#japan">
+          <div class="featured-card" style="background: linear-gradient(135deg, #e8f5e9 0%, #c8e6c9 100%)">
+            <div class="featured-text">
+              <div class="featured-tag">하루 27홀 가능</div>
+              <h3>일본 와카야마<br>명품 다색골프</h3>
+            </div>
+            <img src="https://images.unsplash.com/photo-1545568673-2f4c98a9b1c5?w=400&auto=format&fit=crop" alt="일본 골프" />
+          </div>
+        </a>
+      </div>
+      <div class="swiper-slide">
+        <a href="#thailand">
+          <div class="featured-card" style="background: linear-gradient(135deg, #fff8e1 0%, #ffecb3 100%)">
+            <div class="featured-text">
+              <div class="featured-tag">5성급 호텔 포함</div>
+              <h3>태국 방콕<br>럭셔리 골프</h3>
+            </div>
+            <img src="https://images.unsplash.com/photo-1582743779808-7dbd1e38e9b2?w=400&auto=format&fit=crop" alt="태국 골프" />
+          </div>
+        </a>
+      </div>
+      <div class="swiper-slide">
+        <a href="#vietnam">
+          <div class="featured-card" style="background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%)">
+            <div class="featured-text">
+              <div class="featured-tag">해변 코스</div>
+              <h3>베트남 다낭<br>오션뷰 골프</h3>
+            </div>
+            <img src="https://images.unsplash.com/photo-1500485035595-cbe6f645feb1?w=400&auto=format&fit=crop" alt="베트남 골프" />
+          </div>
+        </a>
+      </div>
+    </div>
+    <div class="swiper-pagination featuredSwiper-pagination"></div>
+  </div>
+</section>
+
+<!-- ===== BEST 3 PRODUCTS ===== -->
+<section class="best-section">
+  <div class="container">
+    <div class="best-tabs" id="bestTabs">
+      <button class="best-tab active" data-best="popular">인기 상품 best3</button>
+      <button class="best-tab" data-best="cheap">최저가 상품 best3</button>
+      <button class="best-tab" data-best="new">최신 상품 best3</button>
+    </div>
+
+    <!-- Popular -->
+    <div class="best-list active" id="best-popular">
+      <div class="swiper bestSwiper1">
+        <div class="swiper-wrapper">
+          <div class="swiper-slide">
+            <a href="#" class="product-card-h">
+              <div class="product-img">
+                <img src="https://images.unsplash.com/photo-1535131749006-b7f58c99034b?w=300&auto=format&fit=crop" alt="일본 골프" />
+                <span class="badge-popular">인기 1위</span>
+              </div>
+              <div class="product-info">
+                <p class="product-tags">일본 #오사카 #난카이CC외2곳<br>#[5성]힐튼오사카 #3박</p>
+                <p class="product-price">560,000원~</p>
+              </div>
+            </a>
+          </div>
+          <div class="swiper-slide">
+            <a href="#" class="product-card-h">
+              <div class="product-img">
+                <img src="https://images.unsplash.com/photo-1559494007-9f5847c49d94?w=300&auto=format&fit=crop" alt="태국 골프" />
+                <span class="badge-popular">인기 2위</span>
+              </div>
+              <div class="product-info">
+                <p class="product-tags">태국 #방콕 #블루캐년CC<br>#[5성]메리어트호텔 #3박</p>
+                <p class="product-price">890,000원~</p>
+              </div>
+            </a>
+          </div>
+          <div class="swiper-slide">
+            <a href="#" class="product-card-h">
+              <div class="product-img">
+                <img src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=300&auto=format&fit=crop" alt="베트남 골프" />
+                <span class="badge-popular">인기 3위</span>
+              </div>
+              <div class="product-info">
+                <p class="product-tags">베트남 #다낭 #몽고CC외1곳<br>#[5성]풀만호텔 #3박</p>
+                <p class="product-price">740,000원~</p>
+              </div>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Cheap -->
+    <div class="best-list" id="best-cheap">
+      <div class="swiper bestSwiper2">
+        <div class="swiper-wrapper">
+          <div class="swiper-slide">
+            <a href="#" class="product-card-h">
+              <div class="product-img">
+                <img src="https://images.unsplash.com/photo-1611374243147-44a702c2d44c?w=300&auto=format&fit=crop" alt="중국 골프" />
+                <span class="badge-cheap">최저가</span>
+              </div>
+              <div class="product-info">
+                <p class="product-tags">중국 #칭다오 #캐슬렉스CC<br>#골프텔 #2박</p>
+                <p class="product-price">280,000원~</p>
+              </div>
+            </a>
+          </div>
+          <div class="swiper-slide">
+            <a href="#" class="product-card-h">
+              <div class="product-img">
+                <img src="https://images.unsplash.com/photo-1545568673-2f4c98a9b1c5?w=300&auto=format&fit=crop" alt="일본 골프" />
+                <span class="badge-cheap">최저가</span>
+              </div>
+              <div class="product-info">
+                <p class="product-tags">일본 #후쿠오카 #팜스프링CC<br>#비즈니스호텔 #2박</p>
+                <p class="product-price">320,000원~</p>
+              </div>
+            </a>
+          </div>
+          <div class="swiper-slide">
+            <a href="#" class="product-card-h">
+              <div class="product-img">
+                <img src="https://images.unsplash.com/photo-1500485035595-cbe6f645feb1?w=300&auto=format&fit=crop" alt="필리핀 골프" />
+                <span class="badge-cheap">최저가</span>
+              </div>
+              <div class="product-info">
+                <p class="product-tags">필리핀 #클라크 #미묘CC<br>#리조트호텔 #3박</p>
+                <p class="product-price">490,000원~</p>
+              </div>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- New -->
+    <div class="best-list" id="best-new">
+      <div class="swiper bestSwiper3">
+        <div class="swiper-wrapper">
+          <div class="swiper-slide">
+            <a href="#" class="product-card-h">
+              <div class="product-img">
+                <img src="https://images.unsplash.com/photo-1582743779808-7dbd1e38e9b2?w=300&auto=format&fit=crop" alt="말레이시아" />
+                <span class="badge-new">NEW</span>
+              </div>
+              <div class="product-info">
+                <p class="product-tags">말레이시아 #쿠알라룸푸르<br>#로얄셀랑오르CC #[5성]힐튼KL #3박</p>
+                <p class="product-price">1,090,000원~</p>
+              </div>
+            </a>
+          </div>
+          <div class="swiper-slide">
+            <a href="#" class="product-card-h">
+              <div class="product-img">
+                <img src="https://images.unsplash.com/photo-1535131749006-b7f58c99034b?w=300&auto=format&fit=crop" alt="일본 삿포로" />
+                <span class="badge-new">NEW</span>
+              </div>
+              <div class="product-info">
+                <p class="product-tags">일본 #삿포로 #클럽함마나스CC<br>#[4성]호텔 #3박</p>
+                <p class="product-price">750,000원~</p>
+              </div>
+            </a>
+          </div>
+          <div class="swiper-slide">
+            <a href="#" class="product-card-h">
+              <div class="product-img">
+                <img src="https://images.unsplash.com/photo-1559494007-9f5847c49d94?w=300&auto=format&fit=crop" alt="태국 치앙마이" />
+                <span class="badge-new">NEW</span>
+              </div>
+              <div class="product-info">
+                <p class="product-tags">태국 #치앙마이 #랑나CC<br>#[5성]르메르디앙 #3박</p>
+                <p class="product-price">870,000원~</p>
+              </div>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== SPECIAL NOTICE ===== -->
+<section class="notice-banner">
+  <div class="container">
+    <div class="notice-inner">
+      <div class="notice-icon">💡</div>
+      <div class="notice-text">
+        <strong>현장지불 금액까지 투명하게!</strong>
+        <span>예상 현장지불 금액을 미리 확인하고 비교하세요</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== JAPAN SECTION ===== -->
+<section class="products-section" id="japan">
+  <div class="container">
+    <div class="section-header">
+      <h2 class="section-title">🇯🇵 일본 골프여행</h2>
+      <a href="#" class="btn-more">전체보기</a>
+    </div>
+    <div class="product-grid">
+      <a href="#" class="product-card">
+        <div class="product-thumb">
+          <img src="https://images.unsplash.com/photo-1535131749006-b7f58c99034b?w=400&auto=format&fit=crop" alt="일본 오사카" loading="lazy"/>
+          <div class="thumb-info">
+            <span class="departure">인천 출발</span>
+          </div>
+        </div>
+        <div class="product-body">
+          <p class="product-dest">일본 > 오사카</p>
+          <p class="product-title">#오사카 #난카이CC외2곳 #[5성]힐튼오사카 #3박</p>
+          <p class="product-feature">오사카 명문코스 다색골프</p>
+          <div class="product-footer">
+            <span class="product-price-main">560,000원~</span>
+            <span class="product-on-site">(예상)현장지불 80,000원~</span>
+          </div>
+        </div>
+      </a>
+      <a href="#" class="product-card">
+        <div class="product-thumb">
+          <img src="https://images.unsplash.com/photo-1545568673-2f4c98a9b1c5?w=400&auto=format&fit=crop" alt="일본 후쿠오카" loading="lazy"/>
+          <div class="thumb-info">
+            <span class="departure">김해 출발</span>
+          </div>
+        </div>
+        <div class="product-body">
+          <p class="product-dest">일본 > 후쿠오카</p>
+          <p class="product-title">#후쿠오카 #팜스프링CC외1곳 #[4성]솔라리아호텔 #2박</p>
+          <p class="product-feature">규슈 대표 코스 최저가</p>
+          <div class="product-footer">
+            <span class="product-price-main">320,000원~</span>
+            <span class="product-on-site">(예상)현장지불 60,000원~</span>
+          </div>
+        </div>
+      </a>
+      <a href="#" class="product-card">
+        <div class="product-thumb">
+          <img src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=400&auto=format&fit=crop" alt="일본 도쿄" loading="lazy"/>
+          <div class="thumb-info">
+            <span class="departure">인천 출발</span>
+          </div>
+        </div>
+        <div class="product-body">
+          <p class="product-dest">일본 > 도쿄</p>
+          <p class="product-title">#도쿄근교 #타마CC외1곳 #[5성]하얏트리젠시 #3박</p>
+          <p class="product-feature">도쿄 관광+골프 패키지</p>
+          <div class="product-footer">
+            <span class="product-price-main">890,000원~</span>
+          </div>
+        </div>
+      </a>
+      <a href="#" class="product-card">
+        <div class="product-thumb">
+          <img src="https://images.unsplash.com/photo-1545568673-2f4c98a9b1c5?w=400&auto=format&fit=crop" alt="일본 삿포로" loading="lazy"/>
+          <div class="thumb-info">
+            <span class="departure">인천 출발</span>
+          </div>
+        </div>
+        <div class="product-body">
+          <p class="product-dest">일본 > 삿포로</p>
+          <p class="product-title">#삿포로 #클럽함마나스CC #[4성]삿포로그랜드호텔 #3박</p>
+          <p class="product-feature">홋카이도 여름골프 성지</p>
+          <div class="product-footer">
+            <span class="product-price-main">750,000원~</span>
+            <span class="product-on-site">(예상)현장지불 120,000원~</span>
+          </div>
+        </div>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ===== THAILAND SECTION ===== -->
+<section class="products-section bg-light" id="thailand">
+  <div class="container">
+    <div class="section-header">
+      <h2 class="section-title">🇹🇭 태국 골프여행</h2>
+      <a href="#" class="btn-more">전체보기</a>
+    </div>
+    <div class="product-grid">
+      <a href="#" class="product-card">
+        <div class="product-thumb">
+          <img src="https://images.unsplash.com/photo-1559494007-9f5847c49d94?w=400&auto=format&fit=crop" alt="태국 방콕" loading="lazy"/>
+          <div class="thumb-info">
+            <span class="departure">인천 출발</span>
+          </div>
+        </div>
+        <div class="product-body">
+          <p class="product-dest">태국 > 방콕</p>
+          <p class="product-title">#방콕 #블루캐년CC외1곳 #[5성]메리어트호텔 #3박</p>
+          <p class="product-feature">방콕 명문코스 럭셔리</p>
+          <div class="product-footer">
+            <span class="product-price-main">890,000원~</span>
+            <span class="product-on-site">(예상)현장지불 150,000원~</span>
+          </div>
+        </div>
+      </a>
+      <a href="#" class="product-card">
+        <div class="product-thumb">
+          <img src="https://images.unsplash.com/photo-1582743779808-7dbd1e38e9b2?w=400&auto=format&fit=crop" alt="태국 파타야" loading="lazy"/>
+          <div class="thumb-info">
+            <span class="departure">인천 출발</span>
+          </div>
+        </div>
+        <div class="product-body">
+          <p class="product-dest">태국 > 파타야</p>
+          <p class="product-title">#파타야 #사이암CC외2곳 #[5성]아마리파타야 #3박</p>
+          <p class="product-feature">파타야 3색골프+해양스포츠</p>
+          <div class="product-footer">
+            <span class="product-price-main">790,000원~</span>
+            <span class="product-on-site">(예상)현장지불 200,000원~</span>
+          </div>
+        </div>
+      </a>
+      <a href="#" class="product-card">
+        <div class="product-thumb">
+          <img src="https://images.unsplash.com/photo-1500485035595-cbe6f645feb1?w=400&auto=format&fit=crop" alt="태국 치앙마이" loading="lazy"/>
+          <div class="thumb-info">
+            <span class="departure">인천 출발</span>
+          </div>
+        </div>
+        <div class="product-body">
+          <p class="product-dest">태국 > 치앙마이</p>
+          <p class="product-title">#치앙마이 #랑나CC외1곳 #[5성]르메르디앙 #3박</p>
+          <p class="product-feature">북부태국 쿨한 골프여행</p>
+          <div class="product-footer">
+            <span class="product-price-main">870,000원~</span>
+          </div>
+        </div>
+      </a>
+      <a href="#" class="product-card">
+        <div class="product-thumb">
+          <img src="https://images.unsplash.com/photo-1611374243147-44a702c2d44c?w=400&auto=format&fit=crop" alt="태국 후아힌" loading="lazy"/>
+          <div class="thumb-info">
+            <span class="departure">인천 출발</span>
+          </div>
+        </div>
+        <div class="product-body">
+          <p class="product-dest">태국 > 후아힌</p>
+          <p class="product-title">#후아힌 #블랙마운틴CC #[5성]힐튼후아힌 #3박</p>
+          <p class="product-feature">왕실 휴양지 프리미엄 골프</p>
+          <div class="product-footer">
+            <span class="product-price-main">1,190,000원~</span>
+            <span class="product-on-site">(예상)현장지불 180,000원~</span>
+          </div>
+        </div>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ===== VIETNAM SECTION ===== -->
+<section class="products-section" id="vietnam">
+  <div class="container">
+    <div class="section-header">
+      <h2 class="section-title">🇻🇳 베트남 골프여행</h2>
+      <a href="#" class="btn-more">전체보기</a>
+    </div>
+    <div class="product-grid">
+      <a href="#" class="product-card">
+        <div class="product-thumb">
+          <img src="https://images.unsplash.com/photo-1559494007-9f5847c49d94?w=400&auto=format&fit=crop" alt="베트남 다낭" loading="lazy"/>
+          <div class="thumb-info">
+            <span class="departure">인천 출발</span>
+          </div>
+        </div>
+        <div class="product-body">
+          <p class="product-dest">베트남 > 다낭</p>
+          <p class="product-title">#다낭 #몽도CC외1곳 #[5성]풀만다낭 #3박</p>
+          <p class="product-feature">다낭 오션뷰 명품코스</p>
+          <div class="product-footer">
+            <span class="product-price-main">740,000원~</span>
+            <span class="product-on-site">(예상)현장지불 100,000원~</span>
+          </div>
+        </div>
+      </a>
+      <a href="#" class="product-card">
+        <div class="product-thumb">
+          <img src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=400&auto=format&fit=crop" alt="베트남 나트랑" loading="lazy"/>
+          <div class="thumb-info">
+            <span class="departure">인천 출발</span>
+          </div>
+        </div>
+        <div class="product-body">
+          <p class="product-dest">베트남 > 나트랑</p>
+          <p class="product-title">#나트랑 #빈펄CC외2곳 #[5성]빈펄리조트 #3박</p>
+          <p class="product-feature">나트랑 무제한 라운드+섬투어</p>
+          <div class="product-footer">
+            <span class="product-price-main">660,000원~</span>
+            <span class="product-on-site">(예상)현장지불 90,000원~</span>
+          </div>
+        </div>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ===== PROMO BANNER ===== -->
+<section class="promo-section">
+  <div class="container">
+    <a href="#" class="promo-banner">
+      <div class="promo-text">
+        <span class="promo-badge">제휴 혜택</span>
+        <h3>라쿠텐 공식 제휴<br>일본 현지 직계약</h3>
+        <p>더 빠른 실시간 예약 · 더 저렴한 가격</p>
+      </div>
+      <div class="promo-icon">🤝</div>
+    </a>
+  </div>
+</section>
+
+<!-- ===== EVENT SECTION ===== -->
+<section class="event-section" id="event">
+  <div class="container">
+    <div class="section-header">
+      <h2 class="section-title">🎉 기획전 / 이벤트</h2>
+      <a href="#" class="btn-more">전체보기</a>
+    </div>
+    <div class="event-grid">
+      <a href="#" class="event-card">
+        <div class="event-img">
+          <img src="https://images.unsplash.com/photo-1535131749006-b7f58c99034b?w=400&auto=format&fit=crop" alt="얼리버드 이벤트" loading="lazy"/>
+          <span class="event-label">얼리버드 특가</span>
+        </div>
+        <div class="event-body">
+          <h4>일본 골프 얼리버드 특가</h4>
+          <p>30일 전 예약 시 최대 20% 할인</p>
+          <span class="event-period">~ 2026.04.30</span>
+        </div>
+      </a>
+      <a href="#" class="event-card">
+        <div class="event-img">
+          <img src="https://images.unsplash.com/photo-1582743779808-7dbd1e38e9b2?w=400&auto=format&fit=crop" alt="커플 이벤트" loading="lazy"/>
+          <span class="event-label">커플 특가</span>
+        </div>
+        <div class="event-body">
+          <h4>태국 커플 골프 패키지</h4>
+          <p>2인 예약 시 그린피 1회 무료</p>
+          <span class="event-period">~ 2026.05.31</span>
+        </div>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ===== WHY US ===== -->
+<section class="why-section">
+  <div class="container">
+    <h2 class="section-title center">마이골프트래블을 선택해야 하는 이유</h2>
+    <div class="why-grid">
+      <div class="why-card">
+        <div class="why-icon">💰</div>
+        <h4>최저가 보장</h4>
+        <p>타사 대비 더 저렴한 가격<br>가격 차이 발견 시 즉시 환불</p>
+      </div>
+      <div class="why-card">
+        <div class="why-icon">🏌️</div>
+        <h4>골프 전문 가이드</h4>
+        <p>현지 골프 전문 가이드<br>불편함 없는 라운드 보장</p>
+      </div>
+      <div class="why-card">
+        <div class="why-icon">📞</div>
+        <h4>24시간 현지 지원</h4>
+        <p>현지 긴급 연락망 운영<br>언제나 신속한 대응</p>
+      </div>
+      <div class="why-card">
+        <div class="why-icon">✈️</div>
+        <h4>항공 직계약</h4>
+        <p>주요 항공사 직계약으로<br>좌석 확보 우선 보장</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== REVIEW SECTION ===== -->
+<section class="review-section" id="review">
+  <div class="container">
+    <div class="section-header">
+      <h2 class="section-title">💬 여행 후기</h2>
+      <a href="#" class="btn-more">전체보기</a>
+    </div>
+    <div class="swiper reviewSwiper">
+      <div class="swiper-wrapper">
+        <div class="swiper-slide">
+          <div class="review-card">
+            <div class="review-header">
+              <span class="reviewer">김*현</span>
+              <span class="review-dest">일본 오사카</span>
+              <span class="review-stars">★★★★★</span>
+            </div>
+            <p class="review-text">"처음 해외골프여행이었는데 가이드분이 정말 친절하고 코스도 너무 좋았습니다. 다음에도 꼭 이용할게요!"</p>
+            <span class="review-date">2026.03.10</span>
+          </div>
+        </div>
+        <div class="swiper-slide">
+          <div class="review-card">
+            <div class="review-header">
+              <span class="reviewer">박*수</span>
+              <span class="review-dest">태국 방콕</span>
+              <span class="review-stars">★★★★★</span>
+            </div>
+            <p class="review-text">"방콕 블루캐년CC 너무 좋았어요. 5성 호텔도 만족스럽고 가격도 합리적이었습니다. 강력 추천!"</p>
+            <span class="review-date">2026.03.05</span>
+          </div>
+        </div>
+        <div class="swiper-slide">
+          <div class="review-card">
+            <div class="review-header">
+              <span class="reviewer">이*민</span>
+              <span class="review-dest">베트남 다낭</span>
+              <span class="review-stars">★★★★☆</span>
+            </div>
+            <p class="review-text">"다낭 오션뷰 코스에서의 라운드는 정말 잊을 수 없는 경험이었습니다. 현지 서비스도 최고였어요."</p>
+            <span class="review-date">2026.02.28</span>
+          </div>
+        </div>
+      </div>
+      <div class="swiper-pagination reviewSwiper-pagination"></div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== CTA SECTION ===== -->
+<section class="cta-section">
+  <div class="container">
+    <div class="cta-inner">
+      <h2>나만의 맞춤 골프여행<br>상담 받아보세요!</h2>
+      <p>전문 컨설턴트가 최적의 코스와 일정을 제안합니다</p>
+      <div class="cta-buttons">
+        <a href="tel:18990000" class="btn-cta-primary">📞 전화 상담</a>
+        <a href="#" class="btn-cta-secondary">💬 카카오 상담</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== FOOTER ===== -->
+<footer class="footer" id="about">
+  <div class="footer-links">
+    <a href="#">오시는 길</a>
+    <a href="#">제휴문의</a>
+    <a href="#">자주묻는 질문</a>
+    <a href="#">이용약관</a>
+    <a href="#" class="privacy-link">개인정보 취급방침</a>
+    <a href="#">채용공고</a>
+  </div>
+  <div class="footer-contact">
+    <div class="footer-phone-label">전국 대표번호</div>
+    <div class="footer-phone">1899-0000</div>
+    <div class="footer-hours">상담시간 평일 09:00 ~ 18:00 (주말 및 공휴일 휴무)</div>
+    <div class="footer-hours">점심시간 12:00 ~ 13:00</div>
+  </div>
+  <ul class="footer-info">
+    <li>상호명 : (주)마이골프트래블</li>
+    <li>사업자등록번호 : 000-00-00000</li>
+    <li>주 소 : 서울특별시 강남구 테헤란로 123, 5층</li>
+    <li>통신판매업신고번호 : 제2024-서울강남-0000호</li>
+    <li>관광사업자 등록번호 : 제2024-000001호</li>
+    <li>대표 메일 : info@mygolftravel.co.kr</li>
+    <li>대 표 : 홍길동</li>
+    <li>개인정보관리자 : 김담당</li>
+    <li>Copyright©MyGolfTravel. All rights reserved.</li>
+  </ul>
+</footer>
+
+<!-- ===== FLOATING BUTTONS ===== -->
+<div class="floating-btns">
+  <a href="tel:18990000" class="float-btn float-phone" title="전화상담">📞</a>
+  <a href="#" class="float-btn float-kakao" title="카카오 상담">💬</a>
+  <button class="float-btn float-top" id="scrollTop" title="맨 위로">▲</button>
+</div>
+
+<!-- Swiper JS -->
+<script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+<script src="js/main.js"></script>
+</body>
+</html>

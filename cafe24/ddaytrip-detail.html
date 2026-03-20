@@ -1,0 +1,813 @@
+<!--
+  ============================================================
+  디데이트립 (d-daytrip.co.kr) 상품 상세페이지 스타일 개선
+
+  적용 방법:
+  카페24 관리자 → 쇼핑몰 설정 → 고급설정 → 추가 스크립트
+  → <head> 영역에 아래 코드 전체 붙여넣기
+
+  * 실제 d-daytrip.co.kr DOM 구조 기반으로 작성됨
+    - 상품명: .reservation_prod_name
+    - 가격: .reservation_product_price
+    - 이미지: #pcProdThumb img.BigImage + img.ThumbImage
+    - 숨길 대상: .reservation_area
+  ============================================================
+-->
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"/>
+<script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+
+<style>
+/* ============================================================
+   디데이트립 상세페이지 디자인 개선 CSS
+   대상 URL: /reservation/detail
+============================================================ */
+
+body.ddaytrip-detail-page {
+  background: #f0f2f5;
+}
+
+/* ===== 전체 래퍼 ===== */
+.ddaytrip-detail-wrap {
+  max-width: 720px;
+  margin: 0 auto;
+  background: #fff;
+  font-family: 'Apple SD Gothic Neo', 'Noto Sans KR', sans-serif;
+}
+
+/* ===== 사진 갤러리 ===== */
+.dd-gallery {
+  position: relative;
+  background: #000;
+  width: 100%;
+}
+.dd-gallery .swiper { height: 300px; }
+@media (min-width: 480px) { .dd-gallery .swiper { height: 380px; } }
+.dd-gallery img { width: 100%; height: 100%; object-fit: cover; opacity: 0.92; }
+.dd-gallery-counter {
+  position: absolute; bottom: 12px; right: 16px;
+  background: rgba(0,0,0,0.55); color: #fff;
+  font-size: 0.78rem; padding: 4px 10px;
+  border-radius: 50px; z-index: 10;
+}
+.dd-gallery-btn {
+  position: absolute; top: 50%; transform: translateY(-50%);
+  background: rgba(0,0,0,0.45); color: #fff;
+  border: none; width: 36px; height: 36px; border-radius: 50%;
+  font-size: 1rem; display: flex; align-items: center;
+  justify-content: center; cursor: pointer; z-index: 10;
+}
+.dd-gallery-btn.prev { left: 12px; }
+.dd-gallery-btn.next { right: 12px; }
+
+/* ===== 상품 요약 ===== */
+.dd-summary {
+  background: #fff;
+  padding: 20px 16px 16px;
+  border-bottom: 1px solid #e5e7eb;
+}
+.dd-badge {
+  display: inline-block;
+  background: #e8f5e9; color: #1a7d3b;
+  font-size: 0.78rem; font-weight: 700;
+  padding: 4px 12px; border-radius: 50px; margin-bottom: 8px;
+}
+.dd-title {
+  font-size: 1.3rem; font-weight: 900;
+  color: #1a1a1a; margin-bottom: 6px; line-height: 1.3;
+}
+.dd-subtitle {
+  font-size: 0.82rem; color: #6b7280; margin-bottom: 16px;
+}
+.dd-specs {
+  display: grid; grid-template-columns: 1fr 1fr;
+  gap: 1px; background: #e5e7eb;
+  border: 1px solid #e5e7eb; border-radius: 12px; overflow: hidden;
+}
+.dd-spec {
+  background: #fff; padding: 12px;
+  display: flex; flex-direction: column; gap: 4px;
+}
+.dd-spec dt { font-size: 0.72rem; color: #6b7280; font-weight: 600; }
+.dd-spec dd { font-size: 0.9rem; font-weight: 700; color: #1a1a1a; }
+.dd-spec-price { color: #ff6b00 !important; font-size: 1.1rem !important; }
+
+/* ===== 패키지 예약 박스 ===== */
+.dd-booking {
+  background: #fff; padding: 20px 16px; margin-top: 8px;
+}
+.dd-booking h2 {
+  font-size: 1.05rem; font-weight: 800; margin-bottom: 14px; color: #1a1a1a;
+}
+.dd-booking-form { display: flex; flex-direction: column; gap: 12px; margin-bottom: 18px; }
+.dd-form-row { display: flex; align-items: center; gap: 10px; }
+.dd-form-label { font-size: 0.85rem; font-weight: 600; min-width: 60px; flex-shrink: 0; }
+.dd-form-input {
+  flex: 1; border: 1.5px solid #e5e7eb; border-radius: 8px;
+  padding: 10px 12px; font-size: 0.9rem; outline: none;
+  font-family: inherit; color: #1a1a1a;
+}
+.dd-form-input:focus { border-color: #1a7d3b; }
+.dd-people-select { display: flex; align-items: center; gap: 10px; flex: 1; }
+.dd-people-btn {
+  width: 34px; height: 34px; border: 1.5px solid #e5e7eb;
+  border-radius: 50%; font-size: 1.2rem; display: flex;
+  align-items: center; justify-content: center; cursor: pointer;
+  font-family: inherit; transition: all 0.2s; background: #fff;
+}
+.dd-people-btn:hover { border-color: #1a7d3b; color: #1a7d3b; }
+.dd-people-count { font-size: 1.1rem; font-weight: 700; min-width: 24px; text-align: center; }
+
+.dd-price-box {
+  background: #f7f8fa; border-radius: 12px; padding: 16px; margin-bottom: 16px;
+}
+.dd-price-row {
+  display: flex; justify-content: space-between;
+  font-size: 0.88rem; color: #6b7280; margin-bottom: 8px;
+}
+.dd-price-total {
+  display: flex; justify-content: space-between; align-items: center;
+  border-top: 1px solid #e5e7eb; padding-top: 12px; margin-top: 8px;
+  font-weight: 700; font-size: 0.95rem;
+}
+.dd-total-num { font-size: 1.3rem; font-weight: 900; color: #ff6b00; }
+.dd-price-note { font-size: 0.72rem; color: #9ca3af; margin-top: 6px; }
+
+.dd-book-actions { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.dd-btn-phone, .dd-btn-kakao, .dd-btn-reserve {
+  padding: 13px; border-radius: 12px;
+  font-size: 0.9rem; font-weight: 700; text-align: center;
+  cursor: pointer; transition: opacity 0.2s; font-family: inherit;
+  text-decoration: none; display: block; border: none;
+}
+.dd-btn-phone { background: #fff; border: 1.5px solid #1a7d3b; color: #1a7d3b; }
+.dd-btn-kakao { background: #fee500; color: #3c1e1e; }
+.dd-btn-reserve {
+  grid-column: 1 / -1; background: #1a7d3b; color: #fff; font-size: 1rem;
+}
+
+/* ===== 탭 네비게이션 ===== */
+.dd-tabs {
+  display: flex; background: #fff;
+  border-bottom: 2px solid #e5e7eb;
+  position: sticky; top: 0; z-index: 100;
+  overflow-x: auto; scrollbar-width: none;
+  margin-top: 8px;
+}
+.dd-tabs::-webkit-scrollbar { display: none; }
+.dd-tab {
+  padding: 14px 18px; font-size: 0.88rem; font-weight: 600;
+  color: #6b7280; white-space: nowrap;
+  border-bottom: 3px solid transparent; cursor: pointer;
+  transition: all 0.2s; font-family: inherit; background: none;
+  border-left: none; border-right: none; border-top: none;
+}
+.dd-tab.active { color: #1a7d3b; border-bottom-color: #1a7d3b; }
+
+/* ===== 섹션 공통 ===== */
+.dd-section {
+  background: #fff; padding: 24px 16px; margin-top: 8px;
+}
+.dd-section.bg-gray { background: #f7f8fa; }
+.dd-section-title {
+  font-size: 1.05rem; font-weight: 800; color: #1a1a1a; margin-bottom: 6px;
+}
+.dd-section-sub { font-size: 0.8rem; color: #6b7280; margin-bottom: 16px; }
+
+/* ===== 원본 상세 내용 래퍼 ===== */
+.dd-orig-detail {
+  font-size: 0.88rem; line-height: 1.6; color: #374151;
+}
+.dd-orig-detail img { max-width: 100%; height: auto; border-radius: 8px; margin: 8px 0; }
+.dd-orig-detail table { width: 100%; border-collapse: collapse; margin: 8px 0; font-size: 0.82rem; }
+.dd-orig-detail td, .dd-orig-detail th {
+  border: 1px solid #e5e7eb; padding: 8px 10px; text-align: left;
+}
+.dd-orig-detail th { background: #1a7d3b; color: #fff; }
+
+/* ===== 포함/불포함 ===== */
+.dd-inc-grid {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 16px;
+}
+.dd-inc-card { border-radius: 12px; padding: 14px; }
+.dd-inc-yes { background: #e8f5e9; border: 1px solid #a5d6a7; }
+.dd-inc-no { background: #fff3e0; border: 1px solid #ffcc80; }
+.dd-inc-title { font-size: 0.88rem; font-weight: 700; margin-bottom: 10px; }
+.dd-inc-list { display: flex; flex-direction: column; gap: 6px; padding: 0; list-style: none; }
+.dd-inc-list li {
+  font-size: 0.8rem; color: #374151;
+  padding-left: 10px; position: relative; line-height: 1.4;
+}
+.dd-inc-list li::before { content: '·'; position: absolute; left: 0; font-weight: 700; }
+
+/* ===== 주의사항 박스 ===== */
+.dd-notice-box {
+  border: 1px solid #e5e7eb; border-radius: 12px;
+  overflow: hidden; margin-top: 12px;
+}
+.dd-notice-header {
+  background: #f7f8fa; padding: 12px 16px;
+  font-size: 0.88rem; font-weight: 700;
+  border-bottom: 1px solid #e5e7eb;
+}
+.dd-notice-body { padding: 12px 16px; list-style: none; }
+.dd-notice-body li {
+  font-size: 0.8rem; color: #374151;
+  padding-left: 12px; position: relative;
+  line-height: 1.5; margin-bottom: 4px;
+}
+.dd-notice-body li::before { content: '•'; position: absolute; left: 0; color: #ff6b00; }
+
+/* ===== 아코디언 ===== */
+.dd-accordion { border: 1px solid #e5e7eb; border-radius: 12px; overflow: hidden; }
+.dd-acc-item { border-bottom: 1px solid #e5e7eb; }
+.dd-acc-item:last-child { border-bottom: none; }
+.dd-acc-toggle {
+  width: 100%; display: flex; justify-content: space-between; align-items: center;
+  padding: 14px 16px; font-size: 0.88rem; font-weight: 600;
+  background: #fff; cursor: pointer; font-family: inherit; border: none;
+  text-align: left; transition: background 0.2s;
+}
+.dd-acc-toggle:hover { background: #f7f8fa; }
+.dd-acc-arrow { font-size: 0.75rem; color: #9ca3af; transition: transform 0.3s; }
+.dd-acc-item.open .dd-acc-arrow { transform: rotate(180deg); }
+.dd-acc-content {
+  display: none; padding: 12px 16px 16px;
+  background: #f7f8fa; font-size: 0.82rem; color: #374151; line-height: 1.6;
+}
+.dd-acc-item.open .dd-acc-content { display: block; }
+
+.dd-cancel-table { width: 100%; border-collapse: collapse; font-size: 0.82rem; }
+.dd-cancel-table th {
+  background: #1a7d3b; color: #fff;
+  padding: 8px 12px; text-align: left; font-weight: 700;
+}
+.dd-cancel-table td {
+  padding: 8px 12px; border-bottom: 1px solid #e5e7eb; background: #fff;
+}
+.dd-cancel-table tr:nth-child(even) td { background: #f7f8fa; }
+
+/* ===== 골프장/숙박 카드 ===== */
+.dd-info-card {
+  border: 1px solid #e5e7eb; border-radius: 12px;
+  overflow: hidden; margin-bottom: 12px;
+}
+.dd-info-card-img { height: 160px; overflow: hidden; }
+.dd-info-card-img img { width: 100%; height: 100%; object-fit: cover; }
+.dd-info-card-body { padding: 14px; }
+.dd-info-card-name { font-size: 1rem; font-weight: 800; margin-bottom: 10px; }
+.dd-info-specs { display: flex; flex-direction: column; gap: 6px; margin-bottom: 10px; padding: 0; list-style: none; }
+.dd-info-specs li { display: flex; justify-content: space-between; font-size: 0.8rem; }
+.dd-info-specs li span:first-child { color: #6b7280; }
+.dd-info-specs li span:last-child { font-weight: 600; }
+.dd-tags { display: flex; gap: 6px; flex-wrap: wrap; }
+.dd-tag {
+  background: #e8f5e9; color: #145e2c;
+  font-size: 0.7rem; font-weight: 700;
+  padding: 2px 8px; border-radius: 50px;
+}
+
+/* ===== 후기 ===== */
+.dd-review-empty {
+  text-align: center; color: #9ca3af;
+  padding: 30px 20px; font-size: 0.85rem;
+}
+.dd-review-empty a { color: #1a7d3b; font-weight: 700; text-decoration: none; }
+
+/* ===== 하단 고정 버튼 ===== */
+.dd-sticky-bar {
+  position: fixed; bottom: 0; left: 50%; transform: translateX(-50%);
+  width: 100%; max-width: 720px;
+  display: grid; grid-template-columns: 1fr 1fr 1.4fr;
+  background: #fff; border-top: 1px solid #e5e7eb;
+  box-shadow: 0 -4px 16px rgba(0,0,0,0.1); z-index: 500;
+}
+.dd-sticky-btn {
+  padding: 14px 8px; font-size: 0.85rem; font-weight: 700;
+  text-align: center; border: none; cursor: pointer;
+  font-family: inherit; text-decoration: none; display: block;
+}
+.dd-sticky-phone { background: #fff; color: #1a7d3b; border-right: 1px solid #e5e7eb; }
+.dd-sticky-kakao { background: #fee500; color: #3c1e1e; border-right: 1px solid #e5e7eb; }
+.dd-sticky-reserve { background: #1a7d3b; color: #fff; font-size: 0.95rem; }
+
+/* ===== 모달 ===== */
+.dd-modal-overlay {
+  position: fixed; inset: 0; background: rgba(0,0,0,0.55);
+  z-index: 2000; display: none; align-items: flex-end;
+}
+.dd-modal-overlay.open { display: flex; }
+.dd-modal {
+  background: #fff; width: 100%; max-width: 720px;
+  margin: 0 auto; border-radius: 20px 20px 0 0;
+  max-height: 90vh; overflow-y: auto;
+  animation: ddSlideUp 0.35s ease;
+}
+@keyframes ddSlideUp {
+  from { transform: translateY(100%); } to { transform: translateY(0); }
+}
+.dd-modal-header {
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 18px 20px; border-bottom: 1px solid #e5e7eb;
+  position: sticky; top: 0; background: #fff; z-index: 1;
+}
+.dd-modal-header h3 { font-size: 1rem; font-weight: 800; }
+.dd-modal-close { font-size: 1.2rem; color: #9ca3af; cursor: pointer; background: none; border: none; font-family: inherit; }
+.dd-modal-body { padding: 20px; }
+.dd-form-group { display: flex; flex-direction: column; gap: 6px; margin-bottom: 14px; }
+.dd-form-group label { font-size: 0.85rem; font-weight: 600; }
+.dd-form-group input,
+.dd-form-group select,
+.dd-form-group textarea {
+  border: 1.5px solid #e5e7eb; border-radius: 8px;
+  padding: 10px 12px; font-size: 0.9rem; font-family: inherit;
+  outline: none; width: 100%; box-sizing: border-box;
+}
+.dd-form-group input:focus,
+.dd-form-group select:focus,
+.dd-form-group textarea:focus { border-color: #1a7d3b; }
+.dd-agree { display: flex; align-items: center; gap: 8px; font-size: 0.82rem; color: #6b7280; cursor: pointer; margin-bottom: 16px; }
+.dd-btn-submit {
+  background: #1a7d3b; color: #fff; padding: 14px; border-radius: 12px;
+  font-size: 1rem; font-weight: 700; font-family: inherit;
+  cursor: pointer; border: none; width: 100%;
+}
+
+/* 하단 바 높이만큼 여백 */
+body.ddaytrip-detail-page { padding-bottom: 64px; }
+
+/* 기존 카페24 예약 영역 숨김 */
+body.ddaytrip-detail-page .reservation_area { display: none !important; }
+</style>
+
+<script>
+(function() {
+  'use strict';
+
+  // 상세 페이지에서만 실행
+  if (!location.pathname.includes('/reservation/detail')) return;
+
+  // body에 클래스 추가 (CSS 적용용)
+  document.body.classList.add('ddaytrip-detail-page');
+
+  // 페이지 완전 로드 후 실행
+  window.addEventListener('load', function() {
+    buildDetailPage();
+  });
+
+  // ===== 유틸 함수 =====
+  function extractPrice(str) {
+    if (!str) return 0;
+    return parseInt(str.replace(/[^0-9]/g, ''), 10) || 0;
+  }
+
+  function formatPrice(price, people) {
+    if (!price) return '문의요망';
+    return (price * people).toLocaleString('ko-KR') + '원~';
+  }
+
+  // ===== 포함/불포함 파싱 =====
+  function parseInclusions() {
+    var incYes = [], incNo = [], notices = [];
+    var contEl = document.querySelector('#prdDetail .cont');
+    if (!contEl) return { yes: incYes, no: incNo, notices: notices };
+
+    var fullText = contEl.innerText || '';
+
+    // ✓ 포함내역 섹션
+    var yesMatch = fullText.match(/[✓☑]\s*포함내역([\s\S]*?)(?:[×✗☒]\s*불포함|$)/);
+    if (yesMatch) {
+      yesMatch[1].split('\n').forEach(function(line) {
+        line = line.replace(/^[\s◆▶•\t]+/, '').trim();
+        if (line && line.length > 2 && !line.includes('포함내역')) incYes.push(line);
+      });
+    }
+
+    // × 불포함내역 섹션
+    var noMatch = fullText.match(/[×✗☒]\s*불포함내역([\s\S]*?)(?:[✎✏]\s*중요|구마모토|일정|$)/);
+    if (noMatch) {
+      noMatch[1].split('\n').forEach(function(line) {
+        line = line.replace(/^[\s◆▶•\t]+/, '').trim();
+        if (line && line.length > 2 && !line.includes('불포함내역')) incNo.push(line);
+      });
+    }
+
+    // ✎ 중요 안내사항 (노티스)
+    var noteMatch = fullText.match(/[✎✏]\s*중요 안내사항([\s\S]*?)(?:여행일정|$)/);
+    if (noteMatch) {
+      noteMatch[1].split('\n').forEach(function(line) {
+        line = line.replace(/^[\s\[※\t\]]+/, '').trim();
+        if (line && line.length > 3) notices.push(line);
+      });
+    }
+
+    return { yes: incYes, no: incNo, notices: notices };
+  }
+
+  // ===== 메인 빌드 함수 =====
+  function buildDetailPage() {
+
+    // 1. 상품 정보 추출
+    var titleEl = document.querySelector('.reservation_prod_name');
+    var priceEl = document.querySelector('.reservation_product_price');
+
+    var productTitle = titleEl ? titleEl.innerText.trim() : document.title;
+    var productPrice = priceEl ? priceEl.innerText.trim() : '';
+    var basePrice = extractPrice(productPrice);
+
+    // 2. 이미지 수집 (BigImage 먼저, ThumbImage는 small→big URL 변환)
+    var thumbImgs = [];
+    var bigImg = document.querySelector('#pcProdThumb img.BigImage');
+    if (bigImg && bigImg.src) thumbImgs.push(bigImg.src);
+
+    document.querySelectorAll('#pcProdThumb img.ThumbImage').forEach(function(img) {
+      if (!img.src) return;
+      var bigSrc = img.src
+        .replace('/extra/small/', '/extra/big/')
+        .replace('/product/small/', '/product/big/');
+      if (thumbImgs.indexOf(bigSrc) === -1) thumbImgs.push(bigSrc);
+    });
+
+    // 이미지 없을 경우 기본값
+    if (thumbImgs.length === 0) {
+      thumbImgs = ['https://images.unsplash.com/photo-1535131749006-b7f58c99034b?w=800&auto=format&fit=crop'];
+    }
+
+    // 3. 포함/불포함 파싱
+    var inclusions = parseInclusions();
+
+    // 포함내역 기본값 (파싱 실패 시)
+    if (inclusions.yes.length === 0) {
+      inclusions.yes = ['상품 상세 내용을 확인해 주세요'];
+    }
+    if (inclusions.no.length === 0) {
+      inclusions.no = ['상품 상세 내용을 확인해 주세요'];
+    }
+
+    // 4. 원본 상세 HTML (일정 탭에 표시)
+    var detailCont = document.querySelector('#prdDetail .cont');
+    var detailHTML = detailCont ? detailCont.innerHTML : '';
+
+    // 5. 새 레이아웃 HTML 생성
+    var gallerySlides = thumbImgs.map(function(src) {
+      return '<div class="swiper-slide"><img src="' + src + '" alt="상품 이미지" loading="lazy"/></div>';
+    }).join('');
+
+    var incYesItems = inclusions.yes.map(function(t) { return '<li>' + t + '</li>'; }).join('');
+    var incNoItems = inclusions.no.map(function(t) { return '<li>' + t + '</li>'; }).join('');
+    var noticeItems = inclusions.notices.length
+      ? inclusions.notices.map(function(t) { return '<li>' + t + '</li>'; }).join('')
+      : '<li>상세 내용을 확인해 주세요</li>';
+
+    var newHTML =
+      '<div class="ddaytrip-detail-wrap">' +
+
+        // 갤러리
+        '<div class="dd-gallery">' +
+          '<div class="swiper dd-gallery-swiper">' +
+            '<div class="swiper-wrapper">' + gallerySlides + '</div>' +
+          '</div>' +
+          '<div class="dd-gallery-counter" id="ddGalCounter">1 / ' + thumbImgs.length + '</div>' +
+          '<button class="dd-gallery-btn prev" id="ddGalPrev">&#8592;</button>' +
+          '<button class="dd-gallery-btn next" id="ddGalNext">&#8594;</button>' +
+        '</div>' +
+
+        // 상품 요약
+        '<div class="dd-summary">' +
+          '<span class="dd-badge">✈️ 골프 패키지</span>' +
+          '<h1 class="dd-title">' + productTitle + '</h1>' +
+          '<p class="dd-subtitle">해외골프여행 맞춤전문 디데이트립</p>' +
+          '<dl class="dd-specs">' +
+            '<div class="dd-spec"><dt>💰 최저가 (1인)</dt><dd class="dd-spec-price" id="ddSpecPrice">' + (productPrice || '문의요망') + '</dd></div>' +
+            '<div class="dd-spec"><dt>👥 최소인원</dt><dd>2인</dd></div>' +
+            '<div class="dd-spec"><dt>✈️ 교통편</dt><dd>항공 포함</dd></div>' +
+            '<div class="dd-spec"><dt>📍 출발지</dt><dd>인천 / 김해</dd></div>' +
+          '</dl>' +
+        '</div>' +
+
+        // 패키지 예약
+        '<div class="dd-booking" id="ddBooking">' +
+          '<h2>📋 예약 문의</h2>' +
+          '<div class="dd-booking-form">' +
+            '<div class="dd-form-row">' +
+              '<span class="dd-form-label">출발일</span>' +
+              '<input type="date" class="dd-form-input" id="ddDepartDate"/>' +
+            '</div>' +
+            '<div class="dd-form-row">' +
+              '<span class="dd-form-label">인원</span>' +
+              '<div class="dd-people-select">' +
+                '<button class="dd-people-btn" id="ddMinus">−</button>' +
+                '<span class="dd-people-count" id="ddPeopleCount">2</span>' +
+                '<button class="dd-people-btn" id="ddPlus">+</button>' +
+                '<span style="font-size:0.85rem;color:#6b7280">명</span>' +
+              '</div>' +
+            '</div>' +
+            '<div class="dd-form-row">' +
+              '<span class="dd-form-label">출발지</span>' +
+              '<select class="dd-form-input">' +
+                '<option>인천 출발</option>' +
+                '<option>김해 출발</option>' +
+                '<option>대구 출발</option>' +
+                '<option>청주 출발</option>' +
+              '</select>' +
+            '</div>' +
+          '</div>' +
+          '<div class="dd-price-box">' +
+            '<div class="dd-price-row"><span>1인 요금</span><span id="ddPriceLabel">' + (productPrice || '-') + '</span></div>' +
+            '<div class="dd-price-row"><span>인원</span><span id="ddPeopleLabel">2명</span></div>' +
+            '<div class="dd-price-total">' +
+              '<span>예상 합계</span>' +
+              '<span class="dd-total-num" id="ddTotalPrice">' + formatPrice(basePrice, 2) + '</span>' +
+            '</div>' +
+            '<p class="dd-price-note">* 현장지불금액 별도 / 항공료 포함 기준</p>' +
+          '</div>' +
+          '<div class="dd-book-actions">' +
+            '<a href="tel:010-4109-0510" class="dd-btn-phone">📞 전화 예약</a>' +
+            '<a href="http://pf.kakao.com/_xiHuwxj/chat" target="_blank" class="dd-btn-kakao">💬 카카오</a>' +
+            '<button class="dd-btn-reserve" id="ddOpenModal">예약 신청하기</button>' +
+          '</div>' +
+        '</div>' +
+
+        // 탭 네비게이션
+        '<nav class="dd-tabs" id="ddTabs">' +
+          '<button class="dd-tab active" data-target="ddItinerary">상세일정</button>' +
+          '<button class="dd-tab" data-target="ddIncludes">포함/불포함</button>' +
+          '<button class="dd-tab" data-target="ddCourseInfo">골프장/숙박</button>' +
+          '<button class="dd-tab" data-target="ddTips">참고사항</button>' +
+          '<button class="dd-tab" data-target="ddReviews">후기</button>' +
+        '</nav>' +
+
+        // 일정 — 원본 카페24 콘텐츠 활용
+        '<div class="dd-section" id="ddItinerary">' +
+          '<div class="dd-section-title">📅 상세 일정</div>' +
+          '<p class="dd-section-sub">항공사 및 현지 사정에 따라 변경될 수 있습니다</p>' +
+          '<div class="dd-orig-detail">' + detailHTML + '</div>' +
+        '</div>' +
+
+        // 포함/불포함
+        '<div class="dd-section bg-gray" id="ddIncludes">' +
+          '<div class="dd-section-title">포함 / 불포함 사항</div>' +
+          '<div class="dd-inc-grid">' +
+            '<div class="dd-inc-card dd-inc-yes">' +
+              '<div class="dd-inc-title">✅ 포함</div>' +
+              '<ul class="dd-inc-list">' + incYesItems + '</ul>' +
+            '</div>' +
+            '<div class="dd-inc-card dd-inc-no">' +
+              '<div class="dd-inc-title">❌ 불포함</div>' +
+              '<ul class="dd-inc-list">' + incNoItems + '</ul>' +
+            '</div>' +
+          '</div>' +
+          '<div class="dd-notice-box">' +
+            '<div class="dd-notice-header">⚠️ 중요 안내사항</div>' +
+            '<ul class="dd-notice-body">' + noticeItems + '</ul>' +
+          '</div>' +
+        '</div>' +
+
+        // 골프장/숙박 — 예약안내 원본 활용
+        '<div class="dd-section" id="ddCourseInfo">' +
+          '<div class="dd-section-title">⛳ 골프장 &amp; 🏨 숙박 정보</div>' +
+          '<div id="ddCourseCards">' +
+            '<div class="dd-orig-detail" id="ddInfoOrig"></div>' +
+          '</div>' +
+        '</div>' +
+
+        // 참고사항 아코디언
+        '<div class="dd-section bg-gray" id="ddTips">' +
+          '<div class="dd-section-title">여행 전 참고사항</div>' +
+          '<div class="dd-accordion">' +
+            '<div class="dd-acc-item open">' +
+              '<button class="dd-acc-toggle"><span>예약 취소료 규정</span><span class="dd-acc-arrow">▼</span></button>' +
+              '<div class="dd-acc-content">' +
+                '<table class="dd-cancel-table">' +
+                  '<thead><tr><th>취소 시점</th><th>취소 수수료</th></tr></thead>' +
+                  '<tbody>' +
+                    '<tr><td>출발 31일 전</td><td>취소 수수료 없음</td></tr>' +
+                    '<tr><td>출발 30~21일 전</td><td>여행 요금의 10%</td></tr>' +
+                    '<tr><td>출발 20~11일 전</td><td>여행 요금의 20%</td></tr>' +
+                    '<tr><td>출발 10~8일 전</td><td>여행 요금의 30%</td></tr>' +
+                    '<tr><td>출발 7~1일 전</td><td>여행 요금의 50%</td></tr>' +
+                    '<tr><td>출발 당일</td><td>여행 요금의 100%</td></tr>' +
+                  '</tbody>' +
+                '</table>' +
+              '</div>' +
+            '</div>' +
+            '<div class="dd-acc-item">' +
+              '<button class="dd-acc-toggle"><span>예약 시 유의사항</span><span class="dd-acc-arrow">▼</span></button>' +
+              '<div class="dd-acc-content">' +
+                '<ul style="padding-left:4px;">' +
+                  '<li style="margin-bottom:6px;">예약 확정 후 여권 정보(영문 성명, 여권번호, 유효기간) 제출이 필요합니다.</li>' +
+                  '<li style="margin-bottom:6px;">예약금 입금 후 예약이 확정됩니다.</li>' +
+                  '<li style="margin-bottom:6px;">항공 좌석 상황에 따라 일정이 변경될 수 있습니다.</li>' +
+                  '<li>여권 유효 기간이 최소 6개월 이상 남아 있어야 합니다.</li>' +
+                '</ul>' +
+              '</div>' +
+            '</div>' +
+            '<div class="dd-acc-item">' +
+              '<button class="dd-acc-toggle"><span>여권/비자 관련 정보</span><span class="dd-acc-arrow">▼</span></button>' +
+              '<div class="dd-acc-content">' +
+                '<ul style="padding-left:4px;">' +
+                  '<li style="margin-bottom:6px;">일본: 90일 이내 무비자 입국 가능</li>' +
+                  '<li style="margin-bottom:6px;">태국: 30일 이내 무비자 입국 가능</li>' +
+                  '<li>여권 유효기간: 출발일 기준 최소 6개월 이상 필요</li>' +
+                '</ul>' +
+              '</div>' +
+            '</div>' +
+            '<div class="dd-acc-item">' +
+              '<button class="dd-acc-toggle"><span>해외 긴급 연락처</span><span class="dd-acc-arrow">▼</span></button>' +
+              '<div class="dd-acc-content">' +
+                '<ul style="padding-left:4px;">' +
+                  '<li style="margin-bottom:6px;">디데이트립 담당자: 010-4109-0510 (성차민 팀장)</li>' +
+                  '<li style="margin-bottom:6px;">디데이트립 담당자: 010-4667-2301 (김남희 팀장)</li>' +
+                  '<li>현지 가이드 연락처: 예약 확정 후 안내</li>' +
+                '</ul>' +
+              '</div>' +
+            '</div>' +
+          '</div>' +
+        '</div>' +
+
+        // 후기
+        '<div class="dd-section" id="ddReviews">' +
+          '<div class="dd-section-title">💬 예약 후기</div>' +
+          '<div class="dd-review-empty">' +
+            '등록된 후기가 없습니다.<br>' +
+            '<a href="/board/product/list.html?board_no=4">전체 후기 보러가기 →</a>' +
+          '</div>' +
+        '</div>' +
+
+      '</div>' + // ddaytrip-detail-wrap 끝
+
+      // 하단 고정 바
+      '<div class="dd-sticky-bar">' +
+        '<a href="tel:010-4109-0510" class="dd-sticky-btn dd-sticky-phone">📞 전화상담</a>' +
+        '<a href="http://pf.kakao.com/_xiHuwxj/chat" target="_blank" class="dd-sticky-btn dd-sticky-kakao">💬 카카오</a>' +
+        '<button class="dd-sticky-btn dd-sticky-reserve" id="ddStickyReserve">예약 신청</button>' +
+      '</div>' +
+
+      // 예약 모달
+      '<div class="dd-modal-overlay" id="ddModalOverlay">' +
+        '<div class="dd-modal">' +
+          '<div class="dd-modal-header">' +
+            '<h3>예약 신청</h3>' +
+            '<button class="dd-modal-close" id="ddModalClose">✕</button>' +
+          '</div>' +
+          '<div class="dd-modal-body">' +
+            '<form id="ddReserveForm">' +
+              '<div class="dd-form-group"><label>성함 *</label><input type="text" placeholder="홍길동" required/></div>' +
+              '<div class="dd-form-group"><label>연락처 *</label><input type="tel" placeholder="010-0000-0000" required/></div>' +
+              '<div class="dd-form-group"><label>이메일</label><input type="email" placeholder="example@email.com"/></div>' +
+              '<div class="dd-form-group"><label>희망 출발일</label><input type="date"/></div>' +
+              '<div class="dd-form-group"><label>인원 수</label><select><option>2명</option><option>3명</option><option>4명</option><option>5명 이상</option></select></div>' +
+              '<div class="dd-form-group"><label>출발지</label><select><option>인천</option><option>김해</option><option>대구</option><option>청주</option></select></div>' +
+              '<div class="dd-form-group"><label>문의사항</label><textarea rows="3" placeholder="문의하실 내용을 입력해 주세요"></textarea></div>' +
+              '<label class="dd-agree"><input type="checkbox" required/><span>개인정보 수집 및 이용에 동의합니다 (필수)</span></label>' +
+              '<button type="submit" class="dd-btn-submit">예약 신청 완료</button>' +
+            '</form>' +
+          '</div>' +
+        '</div>' +
+      '</div>';
+
+    // 6. 삽입: .reservation_area 앞에 새 레이아웃 추가, 기존 영역 숨김
+    var target = document.querySelector('.reservation_area');
+    if (!target) {
+      // 폴백: contents 안 첫 번째 div
+      target = document.querySelector('#contents > div');
+    }
+    if (!target) return;
+
+    var wrapper = document.createElement('div');
+    wrapper.innerHTML = newHTML;
+    target.parentNode.insertBefore(wrapper, target);
+    target.style.display = 'none';
+
+    // 7. 골프장/숙박 탭에 예약안내(#prdInfo) 원본 내용 주입
+    var prdInfo = document.querySelector('#prdInfo .cont');
+    var infoOrigEl = document.getElementById('ddInfoOrig');
+    if (prdInfo && infoOrigEl) {
+      infoOrigEl.innerHTML = prdInfo.innerHTML;
+    }
+
+    // 8. 이벤트 바인딩
+    bindEvents(basePrice);
+  }
+
+  // ===== 이벤트 바인딩 =====
+  function bindEvents(basePrice) {
+
+    // 갤러리 Swiper
+    var galSwiper = new Swiper('.dd-gallery-swiper', {
+      loop: false,
+      speed: 400,
+      on: {
+        slideChange: function() {
+          var c = document.getElementById('ddGalCounter');
+          if (c) c.textContent = (this.realIndex + 1) + ' / ' + this.slides.length;
+        }
+      }
+    });
+    var galPrev = document.getElementById('ddGalPrev');
+    var galNext = document.getElementById('ddGalNext');
+    if (galPrev) galPrev.addEventListener('click', function() { galSwiper.slidePrev(); });
+    if (galNext) galNext.addEventListener('click', function() { galSwiper.slideNext(); });
+
+    // 인원 카운터
+    var people = 2;
+
+    function updatePriceUI() {
+      var countEl = document.getElementById('ddPeopleCount');
+      var labelEl = document.getElementById('ddPeopleLabel');
+      var totalEl = document.getElementById('ddTotalPrice');
+      if (countEl) countEl.textContent = people;
+      if (labelEl) labelEl.textContent = people + '명';
+      if (totalEl) totalEl.textContent = formatPrice(basePrice, people);
+    }
+
+    var minusBtn = document.getElementById('ddMinus');
+    var plusBtn = document.getElementById('ddPlus');
+    if (minusBtn) minusBtn.addEventListener('click', function() {
+      if (people > 1) { people--; updatePriceUI(); }
+    });
+    if (plusBtn) plusBtn.addEventListener('click', function() {
+      if (people < 30) { people++; updatePriceUI(); }
+    });
+
+    // 출발일 기본값 (오늘 +14일)
+    var d = new Date();
+    d.setDate(d.getDate() + 14);
+    var dateInput = document.getElementById('ddDepartDate');
+    if (dateInput) {
+      dateInput.min = new Date().toISOString().split('T')[0];
+      dateInput.value = d.toISOString().split('T')[0];
+    }
+
+    // 탭 클릭 → 스크롤
+    document.querySelectorAll('.dd-tab').forEach(function(tab) {
+      tab.addEventListener('click', function() {
+        document.querySelectorAll('.dd-tab').forEach(function(t) { t.classList.remove('active'); });
+        tab.classList.add('active');
+        var sec = document.getElementById(tab.dataset.target);
+        if (sec) {
+          var top = sec.getBoundingClientRect().top + window.scrollY - 56;
+          window.scrollTo({ top: top, behavior: 'smooth' });
+        }
+      });
+    });
+
+    // 스크롤 시 탭 자동 활성화
+    var tabSections = ['ddItinerary', 'ddIncludes', 'ddCourseInfo', 'ddTips', 'ddReviews'];
+    var tabObserver = new IntersectionObserver(function(entries) {
+      entries.forEach(function(entry) {
+        if (entry.isIntersecting) {
+          var id = entry.target.id;
+          document.querySelectorAll('.dd-tab').forEach(function(tab) {
+            tab.classList.toggle('active', tab.dataset.target === id);
+          });
+        }
+      });
+    }, { threshold: 0.2, rootMargin: '-60px 0px -55% 0px' });
+
+    tabSections.forEach(function(id) {
+      var el = document.getElementById(id);
+      if (el) tabObserver.observe(el);
+    });
+
+    // 아코디언
+    document.querySelectorAll('.dd-acc-toggle').forEach(function(btn) {
+      btn.addEventListener('click', function() {
+        var item = btn.closest('.dd-acc-item');
+        var isOpen = item.classList.contains('open');
+        document.querySelectorAll('.dd-acc-item').forEach(function(i) { i.classList.remove('open'); });
+        if (!isOpen) item.classList.add('open');
+      });
+    });
+
+    // 모달
+    var overlay = document.getElementById('ddModalOverlay');
+    function openModal() {
+      if (overlay) overlay.classList.add('open');
+      document.body.style.overflow = 'hidden';
+    }
+    function closeModal() {
+      if (overlay) overlay.classList.remove('open');
+      document.body.style.overflow = '';
+    }
+
+    var openBtn = document.getElementById('ddOpenModal');
+    var stickyBtn = document.getElementById('ddStickyReserve');
+    var closeBtn = document.getElementById('ddModalClose');
+    var form = document.getElementById('ddReserveForm');
+
+    if (openBtn) openBtn.addEventListener('click', openModal);
+    if (stickyBtn) stickyBtn.addEventListener('click', openModal);
+    if (closeBtn) closeBtn.addEventListener('click', closeModal);
+    if (overlay) overlay.addEventListener('click', function(e) {
+      if (e.target === overlay) closeModal();
+    });
+    if (form) form.addEventListener('submit', function(e) {
+      e.preventDefault();
+      alert('예약 신청이 완료되었습니다!\n담당자가 확인 후 빠르게 연락드리겠습니다.\n감사합니다 😊');
+      closeModal();
+    });
+  }
+
+})();
+</script>
