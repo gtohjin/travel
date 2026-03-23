@@ -60,17 +60,21 @@ _TITLE_FORMATS = [
 # ────────────────────────────────────────────
 # 핵심 생성 함수
 # ────────────────────────────────────────────
-def generate_content(keyword: str, content_type: str = "블로그") -> dict:
+def generate_content(keyword: str, content_type: str = "블로그", persona_key: str = None) -> dict:
     """
     keyword:      메인 키워드 (예: "북해도 골프 여름")
     content_type: "블로그" | "인스타그램" | "스레드"
+    persona_key:  personas.py의 PERSONAS 키 (없으면 기본 대상 독자 사용)
     반환: {titles, body, cta, thumbnail, hashtags, keyword, type, created_at}
     """
+    from personas import get_persona_prompt
 
     brand    = BUSINESS["brand"]
     cta_url  = BUSINESS["cta_url"]
     tone     = BUSINESS["tone"]
     product  = BUSINESS["product"]
+
+    persona_prompt = get_persona_prompt(persona_key)
 
     # ── 매 호출마다 다른 결과를 위한 랜덤 변수 ──
     perspective    = random.choice(_PERSPECTIVES)
@@ -88,9 +92,9 @@ def generate_content(keyword: str, content_type: str = "블로그") -> dict:
         format_instruction = f"""
 다음 구조로 SEO 최적화 블로그 글을 작성하세요.
 
-■ 대상 독자
+{persona_prompt if persona_prompt else """■ 대상 독자
 40~60대 골프 마니아, 회사 대표·임원, 해외골프여행 경험자 또는 입문 희망자.
-이들은 바쁘고 정보에 민감하며, 신뢰할 수 있는 전문가의 조언을 원합니다.
+이들은 바쁘고 정보에 민감하며, 신뢰할 수 있는 전문가의 조언을 원합니다."""}
 
 ■ 어조 & 스타일
 - 존댓말 사용 (반말 절대 금지)
@@ -126,7 +130,7 @@ def generate_content(keyword: str, content_type: str = "블로그") -> dict:
 - 첫 줄: {opening_style}
 - 독자 시선: {perspective}
 - 금지어: {', '.join(forbidden)}
-"""
+{persona_prompt}"""
     else:  # 스레드
         format_instruction = f"""
 스레드(Threads) 캡션 형식으로 작성하세요:
@@ -136,7 +140,7 @@ def generate_content(keyword: str, content_type: str = "블로그") -> dict:
 - 첫 문장: {opening_style}
 - 독자 시선: {perspective}
 - 금지어: {', '.join(forbidden)}
-"""
+{persona_prompt}"""
 
     prompt = f"""
 당신은 {brand}의 {product} 전문 콘텐츠 마케터입니다.
@@ -191,6 +195,7 @@ def generate_content(keyword: str, content_type: str = "블로그") -> dict:
     result.update({
         "keyword":    keyword,
         "type":       content_type,
+        "persona":    persona_key or "",
         "created_at": datetime.datetime.now().strftime("%Y-%m-%d %H:%M"),
     })
     return result
@@ -265,6 +270,7 @@ def generate_season_recommendations(
     kw_stats: list[dict],
     season: str,
     extra_hints: list[str] | None = None,
+    persona_key: str = None,
 ) -> list[dict]:
     """
     수집된 키워드 중 현재 시즌에 맞는 TOP 5 추천 + 각각에 후킹 메시지 생성.
@@ -274,10 +280,12 @@ def generate_season_recommendations(
     반환: [{keyword, search_vol, tier, technique, hook_title, hook_body, hook_cta}, ...]
     """
     from config import SEASON_MAP
+    from personas import get_persona_prompt
     brand   = BUSINESS["brand"]
     product = BUSINESS["product"]
     cta_url = BUSINESS["cta_url"]
 
+    persona_prompt = get_persona_prompt(persona_key)
     season_words = SEASON_MAP[season]["keywords"]
 
     # ── TOP 5 선정: 시즌 롱테일 × 고볼륨 균형 믹스 ──
@@ -355,8 +363,7 @@ def generate_season_recommendations(
 - 사용 금지 단어: {', '.join(forbidden_hook)}
 - 5개 모두 서로 다른 마케팅 기법 사용
 
-■ 대상 독자
-40~60대 골프 마니아, 회사 대표·임원, 해외골프여행 경험자 또는 입문 희망자
+{persona_prompt if persona_prompt else "■ 대상 독자\n40~60대 골프 마니아, 회사 대표·임원, 해외골프여행 경험자 또는 입문 희망자"}
 
 ■ 현존 마케팅 기법 (각 항목에 하나씩, 중복 금지)
 {techniques_list}

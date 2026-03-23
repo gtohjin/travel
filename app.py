@@ -35,6 +35,80 @@ OUTPUT_DIR = Path(__file__).parent / "output"
 OUTPUT_DIR.mkdir(exist_ok=True)
 
 # ──────────────────────────────────────────
+# 사이드바 — 페르소나 설정
+# ──────────────────────────────────────────
+from personas import (
+    PERSONAS, all_personas, list_personas,
+    save_custom_persona, delete_custom_persona, load_custom_personas,
+)
+
+with st.sidebar:
+    st.header("타깃 페르소나")
+
+    all_p = all_personas()
+    persona_options = {"(기본 대상 독자)": None} | {v: k for k, v in list_personas().items()}
+    selected_persona_label = st.selectbox(
+        "콘텐츠를 쓸 대상을 선택하세요",
+        options=list(persona_options.keys()),
+    )
+    selected_persona_key = persona_options[selected_persona_label]
+
+    if selected_persona_key and selected_persona_key in all_p:
+        p = all_p[selected_persona_key]
+        st.markdown("---")
+        st.markdown(f"**{p['name']}** ({p['age']}, {p['job']})")
+        st.caption(p["background"])
+        st.markdown("**Pain Points**")
+        for pt in p["pain_points"]:
+            st.caption(f"• {pt}")
+        st.markdown("**동기**")
+        for m in p["motivations"]:
+            st.caption(f"• {m}")
+        st.markdown("**글 스타일**")
+        st.caption(p["writing_style"])
+        # 커스텀 페르소나만 삭제 가능
+        custom_keys = load_custom_personas().keys()
+        if selected_persona_key in custom_keys:
+            if st.button("🗑 이 페르소나 삭제", type="secondary"):
+                delete_custom_persona(selected_persona_key)
+                st.success("삭제됐습니다.")
+                st.rerun()
+    else:
+        st.caption("기본: 40~60대 골프 마니아 / 대표·임원 대상 일반 어조")
+
+    # ── 페르소나 추가 폼 ──────────────────────
+    st.markdown("---")
+    with st.expander("➕ 새 페르소나 추가"):
+        with st.form("add_persona_form", clear_on_submit=True):
+            p_name  = st.text_input("이름", placeholder="예: 골프 초보 김사원")
+            p_age   = st.text_input("나이", placeholder="예: 32세")
+            p_job   = st.text_input("직업", placeholder="예: 스타트업 마케터")
+            p_bg    = st.text_area("배경 (한두 문장)", placeholder="예: 골프 시작 1년차, 첫 해외 골프 계획 중")
+            p_pain  = st.text_area("Pain Points (줄바꿈으로 구분)", placeholder="예: 예산이 부족\n어디서 예약해야 할지 모름")
+            p_motive= st.text_area("동기 (줄바꿈으로 구분)", placeholder="예: 친구들과 특별한 경험\nSNS에 올릴 컨텐츠")
+            p_style = st.text_area("글 스타일", placeholder="예: 친근하고 유머 있는 어조. 짧은 문장 선호.")
+            p_topics= st.text_input("관심 주제 (쉼표 구분)", placeholder="예: 저렴한 코스, 2박3일 코스, 초보 코스")
+            submitted = st.form_submit_button("저장", type="primary")
+
+            if submitted:
+                if not p_name:
+                    st.error("이름을 입력하세요.")
+                else:
+                    key = p_name.replace(" ", "_")
+                    save_custom_persona(key, {
+                        "name": p_name,
+                        "age": p_age or "미입력",
+                        "job": p_job or "미입력",
+                        "background": p_bg or "",
+                        "pain_points": [x.strip() for x in p_pain.splitlines() if x.strip()],
+                        "motivations": [x.strip() for x in p_motive.splitlines() if x.strip()],
+                        "writing_style": p_style or "",
+                        "preferred_topics": [x.strip() for x in p_topics.split(",") if x.strip()],
+                    })
+                    st.success(f"'{p_name}' 페르소나가 저장됐습니다.")
+                    st.rerun()
+
+# ──────────────────────────────────────────
 # 탭 구성
 # ──────────────────────────────────────────
 tab1, tab2, tab3 = st.tabs(["① 키워드 수집", "② 콘텐츠 생성", "③ 저장된 결과"])
@@ -82,7 +156,8 @@ with tab1:
                 from content_gen import generate_season_recommendations
                 hooks = generate_season_recommendations(
                     st.session_state["kw_stats"], cur_season,
-                    extra_hints=cur_extra
+                    extra_hints=cur_extra,
+                    persona_key=selected_persona_key,
                 )
                 st.session_state["hooks"] = hooks
             except Exception as e:
@@ -238,7 +313,7 @@ with tab2:
             st.write(f"생성 중: **{kw}** ({i+1}/{len(kws)})")
             try:
                 from content_gen import generate_content, save_content
-                content = generate_content(kw, content_type)
+                content = generate_content(kw, content_type, persona_key=selected_persona_key)
                 save_content(content)
                 results.append(content)
             except Exception as e:
@@ -253,7 +328,10 @@ with tab2:
     if "last_results" in st.session_state:
         for content in st.session_state["last_results"]:
             st.markdown("---")
-            st.markdown(f"### 📌 `{content['keyword']}` — {content['type']}")
+            persona_label = ""
+            if content.get("persona") and content["persona"] in all_p:
+                persona_label = f" | 페르소나: {all_p[content['persona']]['name']}"
+            st.markdown(f"### 📌 `{content['keyword']}` — {content['type']}{persona_label}")
 
             # 제목 10개
             with st.expander("📝 제목 10개", expanded=True):
